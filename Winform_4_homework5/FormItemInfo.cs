@@ -19,9 +19,15 @@ namespace Winform_4_homework5
             InitializeComponent();
         }
 
+        private void InputReset()
+        {
+            textBoxType.Text = "";
+            textBoxId.Text = "";
+            textBoxName.Text = "";
+        }
+
         private void buttonSubmit_Click(object sender, EventArgs e)
         {
-            labelShow.Text = "";//清空之前的显示
             string type = textBoxType.Text.Trim();
             int id = int.Parse(textBoxId.Text.Trim());
             string name = textBoxName.Text.Trim();
@@ -30,21 +36,23 @@ namespace Winform_4_homework5
             ComUtility.allItemList.Add(itemInfo);
 
             //显示
+            labelShow.Text = "";//清空之前的显示
             ComUtility.allItemList.ForEach((item) =>
             {
                 labelShow.Text += $"{item.ItemId}, {item.ItemName}, {item.ItemType} \r\n";
             });
 
-            textBoxType.Text = "";
-            textBoxId.Text = "";
-            textBoxName.Text = "";
+            this.InputReset();
         }
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            labelShow.Text = "";//清空之前的显示
             string keyword = textBoxKeyword.Text.Trim();
 
+            //如果keyword为空, 则不执行操作
+            if (keyword == "") return;
+
+            labelShow.Text = "";//清空之前的显示
             ComUtility.allItemList.Where(item => item.ItemName.Contains(keyword)).ToList()
                 .ForEach((item) =>
             {

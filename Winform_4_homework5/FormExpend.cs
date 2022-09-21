@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Winform_4_homework5.Models;
 using Winform_4_homework5.Utility;
@@ -64,7 +59,9 @@ namespace Winform_4_homework5
             decimal to = decimal.Parse(textBoxAmountSearchTo.Text.Trim());
 
             labelShow.Text = "";
-            ComUtility.allExpendList.Where(item => item.Description.Contains(desc) && item.Amount >= from && item.Amount <= to)
+            ComUtility.allExpendList.Where(item =>
+                desc != "" ? item.Description.Contains(desc) : true //如果描述为空,则设置为true, 来跳过此判断
+                && item.Amount >= from && item.Amount <= to)
                 .ToList().ForEach(item =>
                 {
                     labelShow.Text += AttributeExtend.ShowRemarkInfo(item);

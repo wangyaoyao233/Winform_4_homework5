@@ -40,17 +40,39 @@ namespace Winform_4_homework5
         private void buttonDay_Click(object sender, EventArgs e)
         {
             //获取所有不同的日期
-            var timeList1 = ComUtility.allIncomeList.Select(item => item.Time).Distinct().ToList();
-            var timeList2 = ComUtility.allExpendList.Select(item => item.Time).Distinct().ToList();
+            var timeList1 = ComUtility.allIncomeList.Select(item =>
+            {
+                return new
+                {
+                    item.Time.Year,
+                    item.Time.Month,
+                    item.Time.Day
+                };
+            }).Distinct().ToList();
+            var timeList2 = ComUtility.allExpendList.Select(item =>
+            {
+                return new
+                {
+                    item.Time.Year,
+                    item.Time.Month,
+                    item.Time.Day
+                };
+            }).Distinct().ToList();
             var timeList = timeList1.Union(timeList2);
 
             this.labelShow.Text = "";
             foreach (var time in timeList)
             {
-                decimal income = ComUtility.allIncomeList.Where(item => item.Time.Equals(time)).Sum(item => item.Amount);
-                decimal expend = ComUtility.allExpendList.Where(item => item.Time.Equals(time)).Sum(item => item.Amount);
+                decimal income = ComUtility.allIncomeList.Where(item =>
+                item.Time.Year.Equals(time.Year)
+                && item.Time.Month.Equals(time.Month)
+                && item.Time.Day.Equals(time.Day)).Sum(item => item.Amount);
+                decimal expend = ComUtility.allExpendList.Where(item =>
+                item.Time.Year.Equals(time.Year)
+                && item.Time.Month.Equals(time.Month)
+                && item.Time.Day.Equals(time.Day)).Sum(item => item.Amount);
 
-                this.labelShow.Text += $"日期: {time}, 收入: {income}, 支出: {expend}, 日收支: {income - expend}\r\n";
+                this.labelShow.Text += $"日期: {time.Year}年{time.Month}月{time.Day}日, 收入: {income}, 支出: {expend}, 日收支: {income - expend}\r\n";
             }
         }
 

@@ -28,6 +28,7 @@ namespace Winform_4_homework5.Models
             this.Name = name;
             this.Description = description;
             this.Amount = amount;
+            this.Time = DateTime.Now;
         }
         public BaseInfo(string name, string description, decimal amount, DateTime time)
         {
